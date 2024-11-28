@@ -3,47 +3,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:f="http://xmlns.jcp.org/jsf/core" xsi:schemaLocation="http://primefaces.org/ui ">
-<head>
-    <title>Chat avec API</title>
+<h:head>
     <h:outputStylesheet name="css/mycsslayout.css"/>
     <h:outputScript name="js/script.js" target="head"/>
-</head>
-<body>
-<h:form>
-    <h:panelGrid columns="2" cellpadding="5">
-
-        <!-- Zone de saisie pour la question de l'utilisateur -->
-        <h:outputLabel for="question" value="Entrez votre question:"/>
-        <h:inputTextarea id="question" value="#{chatBean.question}" rows="3" cols="50"/>
-
-        <!-- Liste déroulante pour choisir le rôle de l'API -->
-        <h:outputLabel for="role" value="Choisissez le rôle de l'API:"/>
-        <h:selectOneMenu id="role" value="#{chatBean.role}" disabled="#{chatBean.roleSelected}">
-            <f:selectItem itemLabel="Sélectionner" itemValue=""/>
-            <f:selectItem itemLabel="Assistant" itemValue="assistant"/>
-            <f:selectItem itemLabel="Traducteur français-anglais" itemValue="traducteur"/>
-            <f:selectItem itemLabel="Guide touristique" itemValue="guide"/>
-        </h:selectOneMenu>
-
-        <!-- Bouton pour soumettre la question -->
-        <h:commandButton value="Envoyer" action="#{chatBean.processQuestion}"/>
-
-        <!-- Bouton pour démarrer un nouveau chat -->
-        <h:commandButton value="Nouveau chat" action="#{chatBean.newChat}"/>
-
-        <!-- Zone d'affichage pour la réponse -->
-        <h:outputLabel for="response" value="Réponse de l'API:"/>
-        <h:inputTextarea id="response" value="#{chatBean.response}" rows="3" cols="50" readonly="true"/>
-
-        <!-- Zone d'affichage pour l'historique des échanges -->
-        <h:outputLabel for="history" value="Historique de la conversation:"/>
-        <h:inputTextarea id="history" value="#{chatBean.history}" rows="10" cols="50" readonly="true"/>
-
-        <!-- Boutons pour copier le contenu ou effacer les zones -->
-        <h:commandButton value="Effacer" action="#{chatBean.clearLastEntry}"/>
-        <h:commandButton value="Copier" onclick="copyToClipboard('history')"/>
-
-    </h:panelGrid>
-</h:form>
-</body>
+    <title>Conversation</title>
+</h:head>
+<h:body>
+    <f:view>
+        <h:messages errorStyle="color: red" showDetail="true" showSummary="false"/>
+        <h:form id="form">
+            <p:outputLabel for="systemrole" value="Rôle de l'API : "/>
+            <p:selectOneMenu id="systemrole" value="#{conversationBean.systemRole}" editable="true"
+                             disabled="#{!conversationBean.systemRoleChangeable}">
+                <f:selectItems value="#{conversationBean.systemRoles}"/>
+            </p:selectOneMenu>
+            <h:outputText value="  "/>
+            <h:commandButton value="Nouveau chat" action="#{conversationBean.nouveauChat}" />
+            <h:panelGrid id="paneltotal" columns="2" columnClasses="topAligned,topAligned">
+                <h:panelGrid id="panelgauche" columns="1">
+                    <h:panelGrid id="questionetreponse" columns="1">
+                        <h:panelGroup>
+                            <h:outputText value="Question :"/>
+                            <button onclick="copyToClipboard('question')">Copier question</button>
+                            <button onclick="toutEffacer()">Effacer question et réponse</button>
+                        </h:panelGroup>
+                        <h:inputTextarea id="question" value="#{conversationBean.question}" title="Question"
+                                         cols="50" rows="5"/>
+                        <h:commandButton value="Envoyer la question" action="#{conversationBean.envoyer}"/>
+                        <h:panelGroup>
+                            <h:outputText value="Réponse :"/>
+                            <button onclick="copyToClipboard('reponse')">Copier réponse</button>
+                        </h:panelGroup>
+                        <h:inputTextarea id="reponse" value="#{conversationBean.reponse}" title="Réponse"
+                                         cols="50" rows="15"/>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <h:panelGrid id="paneldroit" columns="1" style="vertical-align: top;">
+                    <h:panelGroup>
+                        <h:outputText value="Conversation :"/>
+                        <button onclick="copyToClipboard('conversation')">Copier conversation</button>
+                    </h:panelGroup>
+                    <h:inputTextarea id="conversation" rows="30" cols="50" readonly="true"
+                                     value="#{conversationBean.conversation}" title="Conversation entière"/>
+                </h:panelGrid>
+            </h:panelGrid>
+        </h:form>
+    </f:view>
+</h:body>
 </html>
