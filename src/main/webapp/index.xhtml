@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:f="http://xmlns.jcp.org/jsf/core" xsi:schemaLocation="http://primefaces.org/ui ">
+<head>
+    <title>Chat avec API</title>
+    <h:outputStylesheet name="css/mycsslayout.css"/>
+    <h:outputScript name="js/script.js" target="head"/>
+</head>
+<body>
+<h:form>
+    <h:panelGrid columns="2" cellpadding="5">
+
+        <!-- Zone de saisie pour la question de l'utilisateur -->
+        <h:outputLabel for="question" value="Entrez votre question:"/>
+        <h:inputTextarea id="question" value="#{chatBean.question}" rows="3" cols="50"/>
+
+        <!-- Liste déroulante pour choisir le rôle de l'API -->
+        <h:outputLabel for="role" value="Choisissez le rôle de l'API:"/>
+        <h:selectOneMenu id="role" value="#{chatBean.role}" disabled="#{chatBean.roleSelected}">
+            <f:selectItem itemLabel="Sélectionner" itemValue=""/>
+            <f:selectItem itemLabel="Assistant" itemValue="assistant"/>
+            <f:selectItem itemLabel="Traducteur français-anglais" itemValue="traducteur"/>
+            <f:selectItem itemLabel="Guide touristique" itemValue="guide"/>
+        </h:selectOneMenu>
+
+        <!-- Bouton pour soumettre la question -->
+        <h:commandButton value="Envoyer" action="#{chatBean.processQuestion}"/>
+
+        <!-- Bouton pour démarrer un nouveau chat -->
+        <h:commandButton value="Nouveau chat" action="#{chatBean.newChat}"/>
+
+        <!-- Zone d'affichage pour la réponse -->
+        <h:outputLabel for="response" value="Réponse de l'API:"/>
+        <h:inputTextarea id="response" value="#{chatBean.response}" rows="3" cols="50" readonly="true"/>
+
+        <!-- Zone d'affichage pour l'historique des échanges -->
+        <h:outputLabel for="history" value="Historique de la conversation:"/>
+        <h:inputTextarea id="history" value="#{chatBean.history}" rows="10" cols="50" readonly="true"/>
+
+        <!-- Boutons pour copier le contenu ou effacer les zones -->
+        <h:commandButton value="Effacer" action="#{chatBean.clearLastEntry}"/>
+        <h:commandButton value="Copier" onclick="copyToClipboard('history')"/>
+
+    </h:panelGrid>
+</h:form>
+</body>
+</html>
