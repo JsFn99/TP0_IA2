@@ -17,43 +17,24 @@ import java.util.Locale;
 @ViewScoped
 public class ConversationBean implements Serializable {
 
-    /**
-     * Rôle "système" que l'on attribuera plus tard à un LLM.
-     * Valeur par défaut que l'utilisateur peut modifier.
-     * Possible d'ajouter de nouveaux rôles dans la méthode getSystemRoles.
-     */
+    
     private String systemRole = "helpful assistant";
 
-    /**
-     * Quand le rôle est choisi par l'utilisateur dans la liste déroulante,
-     * il n'est plus possible de le modifier (voir code de la page JSF).
-     */
+    
     private boolean systemRoleChangeable = true;
 
-    /**
-     * Dernière question posée par l'utilisateur.
-     */
+    
     private String question;
 
-    /**
-     * Dernière réponse du serveur.
-     */
+    
     private String reponse;
 
-    /**
-     * La conversation depuis le début.
-     */
+    
     private StringBuilder conversation = new StringBuilder();
 
-    /**
-     * Contexte JSF. Utilisé pour qu'un message d'erreur s'affiche dans le formulaire.
-     */
     @Inject
     private FacesContext facesContext;
 
-    /**
-     * Obligatoire pour un bean CDI (classe gérée par CDI).
-     */
     public ConversationBean() {
     }
 
