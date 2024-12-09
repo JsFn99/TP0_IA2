@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Backing bean pour la page JSF index.xhtml.
- * Portée view pour conserver l'état de la conversation pendant plusieurs requêtes HTTP.
- */
+
 @Named
 @ViewScoped
 public class ConversationBean implements Serializable {
